@@ -12,7 +12,8 @@ class Bst {
     }
 }
 
-export function indexOf(array, value) {
+// export 
+function indexOf(array, value) {
     let count = 0;
     for (let i = 0; i < array.length; i++) {
         count ++;
@@ -25,7 +26,8 @@ export function indexOf(array, value) {
 
 //console.log(indexOf(bst1, 8));
 
-export function binarySearch(array, value, start, end, count = 1) {
+// export 
+function binarySearch(array, value, start, end, count = 1) {
     var start = start === undefined ? 0 : start;
     var end = end === undefined ? array.length : end;
 
@@ -47,20 +49,67 @@ export function binarySearch(array, value, start, end, count = 1) {
     }
 }
 
+// function deweySearch (num, title, start= 0, end = ) {
 
-//console.log(binarySearch(bst1, 8));
-
-//2 a
-// export function sort(inputArr) {
-// const len = inputArr.length;
-// for (let i = 0; i < len; i++) {
-//     for (let j = 0; j < len; j++) {
-//         if (inputArr[j] > inputArr[j + 1]) {
-//             let tmp = inputArr[j];
-//             inputArr[j] = inputArr[j + 1];
-//             inputArr[j + 1] = tmp;
-//         }
-//     }
 // }
-// return inputArr;
-// };
+
+const library = [
+    "005.133 Mike Cowlishaw: The REXX Language",
+    "005.133 Sams: Teach Yourself C++ In 21 Days",
+    "005.133 Bjarne Stroustrup: The C++ Programming Language",
+    "005.2762 Douglas Crockford: JavaScript: The Good Parts",
+    "005.2762 David Flanagan: JavaScript: The Definitive Guide",
+    "005.44684 Meinhard Schmidt: Windows Vista for Dummies", //It certainly is...
+    "220.52081 Zondervan: NIV Study Bible",
+    "231.7652 Dr Russell Humphries: Starlight and Time",
+    "623.82509051 Frederick Thomas Jane: Jane's Fighting Ships", //So far, the ships are winning.
+    "796.8092 Chuck Norris: The Official Chuck Norris Fact Book",
+    ];
+
+function find_book(library, dewey, title) {
+	//Libraries are generally organized into separate sections for
+	//fiction/non-fiction, and often for children's vs adult's. We
+	//assume that the 'library' we've been given is the appropriate
+	//section. Furthermore, we're going to pretend that this library
+	//isn't divided into shelves, despite literally EVERY library I
+	//have ever used having more than one shelf - no point making
+	//this more complicated than it needs to be. :) And one more
+	//short-cut: we assume that Dewey Decimal values can be compared
+	//for equality and inequality with each other. The foibles of
+	//binary floating-point are outside the scope of this question;
+	//you're welcome to use fixed-point or string representations of
+	//Dewey call codes. Oh, and we're looking for a book based on
+	//title alone, despite the possibility of collisions.
+	var start = 0, end = library.length;
+	while (start < end) {
+		var middle = Math.floor((start + end) / 2);
+		if (library[middle].dewey == dewey) {
+			//Found the right code. Great! Did we find the book?
+			if (library[middle].title == title) return library[middle];
+			//Nope. Linearly search around for the book we want.
+			for (var idx = middle + 1; library[idx].dewey == dewey; ++idx)
+				if (library[idx].title == title) return library[idx];
+			for (var idx = middle - 1; library[idx].dewey == dewey; --idx)
+				if (library[idx].title == title) return library[idx];
+			//Well, we found the right section, but the book isn't
+			//here. Guess someone else has borrowed it. Sorry!
+			return null;
+		}
+		if (library[middle].dewey < dewey)
+			start = middle + 1;
+		else
+			end = middle - 1;
+	}
+	//We don't have anything of that Dewey code, so that book isn't
+	//available. Sorry! Try another library.
+	return null;
+}
+
+
+
+
+
+
+
+
+console.log(find_book(library))
